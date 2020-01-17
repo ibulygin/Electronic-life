@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Electronic life</title>
+	<style>
+
+	</style>
+</head>
+<body>
+
+
+
+    <script type="text/javascript" src="world.js"></script>
+    <script type="text/javascript" src="common.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script>
+		animateWorld(new LifelikeWorld(
+      ["############################",
+   "#####                 ######",
+   "##   ***                **##",
+   "#   *##**         **  O  *##",
+   "#    ***     O    ##**    *#",
+   "#       O         ##***    #",
+   "#                 ##**     #",
+   "#   O       #*             #",
+   "#*          #**       O    #",
+   "#***        ##**    O    **#",
+   "##****     ###***       *###",
+   "############################"],
+     {"#": Wall,
+   "O": PlantEater,
+   "*": Plant}
+	));
+
+
+
+		</script>;
+
+</body>
+</html>
