@@ -1,4 +1,4 @@
-
+(function(){
   "use strict";
 
   var active = null;
@@ -48,4 +48,5 @@
     this.button.style.color = "red";
   };
 
-  window.animateWorld = function(world) { new Animated(world); };
+  app.animateWorld = function(world) { new Animated(world); };
+})(app)
