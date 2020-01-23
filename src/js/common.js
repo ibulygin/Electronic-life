@@ -1,4 +1,4 @@
-(function() {
+
   "use strict";
 
   var active = null;
@@ -49,4 +49,3 @@
   };
 
   window.animateWorld = function(world) { new Animated(world); };
-})();
