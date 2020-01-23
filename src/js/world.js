@@ -298,7 +298,7 @@ actionTypes.grow = function (critter) {
 
 actionTypes.move = function (critter, vector, action) {
     let dest = this.checkDestination(action, vector);
-    if (dest == null ||
+    if (dest == undefined ||
         critter.energy <= 1 ||
         this.grid.get(dest) != null) {
         return false;
@@ -312,9 +312,9 @@ actionTypes.move = function (critter, vector, action) {
 actionTypes.eat = function (critter, vector, action) {
     let dest = this.checkDestination(action, vector);
     /**
-     * Если направление не null то atDest объект существа 
+     * Если направление не undefined то atDest объект существа 
      */
-    let atDest = dest != null && this.grid.get(dest);
+    let atDest = dest != undefined && this.grid.get(dest);
     /**
      * Если atDest = null или енегргии не хватает 
      * то возвращаем false, существо не может есть
@@ -342,7 +342,7 @@ actionTypes.reproduce = function (critter, vector, action) {
      * Достаточно ли энергии у зверя
      * проверяем есть ли пустое место
     */
-    if (dest == null ||
+    if (dest == undefined ||
         critter.energy <= 2 * baby.energy ||
         this.grid.get(dest) != null) {
         return false;
