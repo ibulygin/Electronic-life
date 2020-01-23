@@ -66,9 +66,13 @@ Grid.prototype.isInside = function (vector) {
         vector.y >= 0 && vector.y < this.height;
 };
 Grid.prototype.get = function (vector) {
+    //находим элемент в одномерном массиве, с колличеством элемента как в сетке
     return this.space[vector.x + this.width * vector.y];
 };
 Grid.prototype.set = function (vector, value) {
+    /**находим элемент в одномерном массиве, с колличеством элемента как в сетке
+     *  меняем его значение
+     * */
     this.space[vector.x + this.width * vector.y] = value;
 }
 
@@ -87,19 +91,34 @@ function elementFromChar(legend, ch) {
     if (ch == " ") {
         return null;
     }
+    /** Находим в переденном объекте legend ключ 
+     * соответствующий символу и создаем новый объект
+     * ссылочный тип которого равен, значению по 
+     * найденому ключу
+    */
     let element = new legend[ch]();
+    /** Добавляем ему свойство по которому сможем
+     * вытащить первоночальный символ из карты
+    */
     element.originChar = ch;
     return element;
 }
 
 function World(map, legend) {
-    let grid = new Grid(map[0].length, map.length);
+    let grid = new Grid(map[0].length, map.length);//Создаем пустой массив 
     this.grid = grid;
     this.legend = legend;
-
+    /**Для карты берем каждый элемент массива (строку) и ее инндекс
+     * Идем циклом  по строке строке
+     * И меняем каждый элемент grid(сетки) в соответствии с картой, что бы работать с ней 
+     * как с одномерный массивом
+     */
     map.forEach(function (line, y) {
         for (let x = 0; x < line.length; x++)
             grid.set(new Vector(x, y),
+            /**на основе текущего знака создаем объект и меняем
+             * элемент массива Grig на него
+             */
                 elementFromChar(legend, line[x]));
     });
 }
@@ -134,28 +153,47 @@ let world = new World(plan, {
 
 World.prototype.turn = function () {
     let acted = [];
+    /**grid - одномерный массив созданный на основе карты
+     * для каждого элемента массива 1й аргумент - зверь или 
+     * пустое пространство, второе его индекс
+     */
     this.grid.forEach(function (critter, vector) {
+        /**Если у элемента есть метод act - это зверь
+         * и если этого зверя мы не рассматривали(он мог переместиться 
+         * на клетку которую мы проверяем) то добавляем его 
+         * в массив просмотренных объектов и 
+         * выполняем метод letAct из мира, передавая как аргумент
+         * объект зверя и его индекс в массиве
+         */
         if (critter.act && acted.indexOf(critter) == -1) {
             acted.push(critter);
             this.letAct(critter, vector);
         }
-    }, this)
+    }, this)// для привязки this анонимной функции к объекту мира
 }
 
 World.prototype.letAct = function (critter, vector) {
     let action = critter.act(new View(this, vector));
+    //Если есть действие и его тип move
     if (action && action.type == "move") {
+        // новое положение зверя
         let dest = this.checkDestination(action, vector);
+        // Если нам вернулось новое положение зверя и в сетке оно свободно
         if (dest && this.grid.get(dest) == null) {
+            //освобождаем текущую клетку 
             this.grid.set(vector, null);
+            //Назначаем зверю новую
             this.grid.set(dest, critter)
         }
     }
 };
 
 World.prototype.checkDestination = function (action, vector) {
+    //Если путь валидный (содержится в directions)
     if (directions.hasOwnProperty(action.direction)) {
+        //Вычисляем новое положение
         let dest = vector.plus(directions[action.direction]);
+        // если новое положение в пределах карты то возвращаем его
         if (this.grid.isInside(dest))
             return dest;
     }
@@ -165,10 +203,13 @@ function View(world, vector) {
     this.world = world;
     this.vector = vector;
 }
-
+/** */
 View.prototype.look = function (dir) {
+    //цель относительно текущего положения
     let target = this.vector.plus(directions[dir]);
+    //Если цель в пределах карты 
     if (this.world.grid.isInside(target)) {
+        //возвращаем символ объекта, на который смотрим
         return charFromElement(this.world.grid.get(target));
     } else {
         return "#";
@@ -178,11 +219,15 @@ View.prototype.look = function (dir) {
 View.prototype.findAll = function (ch) {
     let found = [];
     for (let dir in directions) {
+        /*смотрим по каждому напрвлению
+        * добавляем направления с нужным символом        
+        **/
         if (this.look(dir) == ch) {
             found.push(dir);
         }
 
     }
+    //возвращаем массив направлений в которых есть символы
     return found;
 }
 
@@ -191,10 +236,10 @@ View.prototype.find = function (ch) {
     if (found.length == 0) return null;
     return randomElement(found);
 }
-
+//напрввление по часовой стрелке
 function dirPlus(dir, n) {
     let index = directionNames.indexOf(dir);
-    return directionNames[(index + n + 8) % 8];
+    return directionNames[(index + n + 8) % 8];//новое направление 1 -> по часовой на 45
 }
 
 function WallFollower() {
@@ -226,10 +271,18 @@ let actionTypes = Object.create(null);
 
 LifelikeWorld.prototype.letAct = function (critter, vector) {
     let action = critter.act(new View(this, vector));
+    /**
+     * Проверяем было ли передано дествие
+     * существует ли переданны тип(сужествует ли функция)
+     * И в конце возвращает ли эта функция true
+     */
     let handled = action &&
         action.type in actionTypes &&
         actionTypes[action.type].call(this, critter, vector, action);
-
+    /* Если действие не передано, то он не двигается 
+    * теряет свой заряд
+    * если заряда нет, то очищаем клетку
+    **/
     if (!handled) {
         critter.energy -= 0.2;
         if (critter.energy <= 0) {
@@ -258,24 +311,45 @@ actionTypes.move = function (critter, vector, action) {
 
 actionTypes.eat = function (critter, vector, action) {
     let dest = this.checkDestination(action, vector);
+    /**
+     * Если направление не null то atDest объект существа 
+     */
     let atDest = dest != null && this.grid.get(dest);
+    /**
+     * Если atDest = null или енегргии не хватает 
+     * то возвращаем false, существо не может есть
+     */
     if (!atDest || atDest.energy == null) {
         return false;
     }
+    /**
+     * Присваиваем зверю энергию съеденного
+     * Меняем его положение
+     */
     critter.energy += atDest.energy;
     this.grid.set(dest, null);
     return true;
 };
 
 actionTypes.reproduce = function (critter, vector, action) {
+    //Создаем инстанс текущего существа
     let baby = elementFromChar(this.legend, critter.originChar);
+    /** 
+     * dest новая координата
+    */
     let dest = this.checkDestination(action, vector);
+    /** проверяем вернулось ли значение координат
+     * Достаточно ли энергии у зверя
+     * проверяем есть ли пустое место
+    */
     if (dest == null ||
         critter.energy <= 2 * baby.energy ||
         this.grid.get(dest) != null) {
         return false;
     }
+    /** вычитаем энергию у зверя*/
     critter.energy -= 2 * baby.energy;
+    // запихиваем нового зверя в dest
     this.grid.set(dest, baby);
     return true;
 };
