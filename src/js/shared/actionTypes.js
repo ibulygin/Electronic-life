@@ -1,6 +1,7 @@
 (function () {
     let actionTypes = Object.create(null);
     let elementFromChar = app.elementFromChar;
+    
     actionTypes.grow = function (critter) {
         critter.energy += 0.5;
         return true;
