@@ -1,4 +1,6 @@
 (function() {
+    let Vector = app.Vector;
+
     function Grid(width, height) {
         this.space = new Array(width * height);
         this.width = width;

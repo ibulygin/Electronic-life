@@ -1,17 +1,17 @@
 (function(app){
-let plan = ["############################",
-    "#      #    #      o      ##",
-    "#                          #",
-    "#          #####           #",
-    "##         #   #    ##     #",
-    "###           ##     #     #",
-    "#           ###      #     #",
-    "#   ####                   #",
-    "#   ##       o             #",
-    "# o  #         o       ### #",
-    "#    #                     #",
-    "############################"
-];
+// let plan = ["############################",
+//     "#      #    #      o      ##",
+//     "#                          #",
+//     "#          #####           #",
+//     "##         #   #    ##     #",
+//     "###           ##     #     #",
+//     "#           ###      #     #",
+//     "#   ####                   #",
+//     "#   ##       o             #",
+//     "# o  #         o       ### #",
+//     "#    #                     #",
+//     "############################"
+// ];
 
 // function Vector(x, y) {
 //     this.x = x;
@@ -21,10 +21,10 @@ let plan = ["############################",
 //     return new Vector(this.x + other.x, this.y + other.y)
 // };
 
-let grid = [
-    ["top left", "top middle", "top right"],
-    ["bottom left", "bottom middle", "bottom right"]
-];
+// let grid = [
+//     ["top left", "top middle", "top right"],
+//     ["bottom left", "bottom middle", "bottom right"]
+// ];
 
 
 // let directions = {
@@ -37,24 +37,24 @@ let grid = [
 //     "w": new Vector(-1, 0),
 //     "nw": new Vector(-1, -1)
 // };
-function randomElement(array) {
-    return array[Math.floor(Math.random() * array.length)];
-}
+// function randomElement(array) {
+//     return array[Math.floor(Math.random() * array.length)];
+// }
 
 // let directionNames = "n ne e se s sw w nw".split(" ");
 
-function BouncingCritter() {
-    this.direction = randomElement(directionNames);
-}
-BouncingCritter.prototype.act = function (view) {
-    if (view.look(this.direction) != " ") {
-        this.direction = view.find(" ") || "s";
-    }
-    return {
-        type: "move",
-        direction: this.direction
-    };
-}
+// function BouncingCritter() {
+//     this.direction = randomElement(directionNames);
+// }
+// BouncingCritter.prototype.act = function (view) {
+//     if (view.look(this.direction) != " ") {
+//         this.direction = view.find(" ") || "s";
+//     }
+//     return {
+//         type: "move",
+//         direction: this.direction
+//     };
+// }
 
 // function Grid(width, height) {
 //     this.space = new Array(width * height);
@@ -87,22 +87,22 @@ BouncingCritter.prototype.act = function (view) {
 //     }
 // }
 
-function elementFromChar(legend, ch) {
-    if (ch == " ") {
-        return null;
-    }
-    /** Находим в переденном объекте legend ключ 
-     * соответствующий символу и создаем новый объект
-     * ссылочный тип которого равен, значению по 
-     * найденому ключу
-    */
-    let element = new legend[ch]();
-    /** Добавляем ему свойство по которому сможем
-     * вытащить первоночальный символ из карты
-    */
-    element.originChar = ch;
-    return element;
-}
+// function elementFromChar(legend, ch) {
+//     if (ch == " ") {
+//         return null;
+//     }
+//     /** Находим в переденном объекте legend ключ 
+//      * соответствующий символу и создаем новый объект
+//      * ссылочный тип которого равен, значению по 
+//      * найденому ключу
+//     */
+//     let element = new legend[ch]();
+//     /** Добавляем ему свойство по которому сможем
+//      * вытащить первоночальный символ из карты
+//     */
+//     element.originChar = ch;
+//     return element;
+// }
 
 // function World(map, legend) {
 //     let grid = new Grid(map[0].length, map.length);//Создаем пустой массив 
@@ -123,13 +123,13 @@ function elementFromChar(legend, ch) {
 //     });
 // }
 
-function charFromElement(element) {
-    if (element == null) {
-        return " ";
-    } else {
-        return element.originChar;
-    }
-}
+// function charFromElement(element) {
+//     if (element == null) {
+//         return " ";
+//     } else {
+//         return element.originChar;
+//     }
+// }
 
 // World.prototype.toString = function () {
 //     let output = "";
@@ -237,30 +237,30 @@ function charFromElement(element) {
 //     return randomElement(found);
 // }
 //напрввление по часовой стрелке
-function dirPlus(dir, n) {
-    let index = directionNames.indexOf(dir);
-    return directionNames[(index + n + 8) % 8];//новое направление 1 -> по часовой на 45
-}
+// function dirPlus(dir, n) {
+//     let index = directionNames.indexOf(dir);
+//     return directionNames[(index + n + 8) % 8];//новое направление 1 -> по часовой на 45
+// }
 
-function WallFollower() {
-    this.dir = "s";
-}
+// function WallFollower() {
+//     this.dir = "s";
+// }
 
-WallFollower.prototype.act = function (view) {
-    let start = this.dir;
-    if (view.look(dirPlus(this.dir, -3)) != " ") {
-        start = this.dir = dirPlus(this.dir, -2);
+// WallFollower.prototype.act = function (view) {
+//     let start = this.dir;
+//     if (view.look(dirPlus(this.dir, -3)) != " ") {
+//         start = this.dir = dirPlus(this.dir, -2);
 
-    }
-    while (view.look(this.dir) != " ") {
-        this.dir = dirPlus(this.dir, 1);
-        if (this.dir == start) break;
-    }
-    return {
-        type: "move",
-        direction: this.dir
-    };
-}
+//     }
+//     while (view.look(this.dir) != " ") {
+//         this.dir = dirPlus(this.dir, 1);
+//         if (this.dir == start) break;
+//     }
+//     return {
+//         type: "move",
+//         direction: this.dir
+//     };
+// }
 
 // function LifelikeWorld(map, legend) {
 //     World.call(this, map, legend);
@@ -375,32 +375,32 @@ WallFollower.prototype.act = function (view) {
 //     }
 // }
 
-function PlantEater() {
-    this.energy = 20;
-}
+// function PlantEater() {
+//     this.energy = 20;
+// }
 
-PlantEater.prototype.act = function (view) {
-    let space = view.find(" ");
-    if (this.energy > 60 && space) {
-        return {
-            type: "reproduce",
-            direction: space
-        };
-    }
-    let plant = view.find("*");
-    if (plant) {
-        return {
-            type: "eat",
-            direction: plant
-        };
-    }
-    if (space) {
-        return {
-            type: "move",
-            direction: space
-        };
-    }
-}
+// PlantEater.prototype.act = function (view) {
+//     let space = view.find(" ");
+//     if (this.energy > 60 && space) {
+//         return {
+//             type: "reproduce",
+//             direction: space
+//         };
+//     }
+//     let plant = view.find("*");
+//     if (plant) {
+//         return {
+//             type: "eat",
+//             direction: plant
+//         };
+//     }
+//     if (space) {
+//         return {
+//             type: "move",
+//             direction: space
+//         };
+//     }
+// }
 
 // function SmartPlantEater() {
 //     this.energy = 30;
@@ -487,9 +487,6 @@ app.animateWorld(new LifelikeWorld(
      "##  **  O   O  #  #    ***  ***        ###      ** #",
      "###               #   *****                    ****#",
      "####################################################"],
-    {"#": app.Wall,
-     "@": app.iger,
-     "O": app.SmartPlantEater, // из предыдущего упражнения
-     "*": app.Plant}
+    app.legend
   )); 
 })(app)

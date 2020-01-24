@@ -1,8 +1,9 @@
 (function() {
+    let charFromElement = app.charFromElement;    
     let Grid = app.Grid;
     let Vector = app.Vector;
     let elementFromChar = app.elementFromChar;
-    let legend = app.legend;
+    let directions = app.directions;
     function World(map, legend) {
         let grid = new Grid(map[0].length, map.length);//Создаем пустой массив 
         this.grid = grid;

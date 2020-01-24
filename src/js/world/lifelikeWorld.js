@@ -1,6 +1,7 @@
 (function() {
     let World = app.World;
-
+    let View = app.View;
+    let actionTypes = app.actionTypes;
     function LifelikeWorld(map, legend) {
         World.call(this, map, legend);
     }

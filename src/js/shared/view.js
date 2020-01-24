@@ -1,4 +1,7 @@
 (function(){
+    let directions = app.directions;
+    let charFromElement = app.charFromElement;
+    let randomElement = app.randomElement;
     function View(world, vector) {
         this.world = world;
         this.vector = vector;

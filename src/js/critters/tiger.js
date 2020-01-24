@@ -1,4 +1,6 @@
 (function() {
+    let randomElement = app.randomElement;
+
     function Tiger() {
         this.energy = 100;
         this.direction = "w";
