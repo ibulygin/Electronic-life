@@ -1,11 +1,11 @@
-(function() {
+(function () {
     let actionTypes = Object.create(null);
     let elementFromChar = app.elementFromChar;
     actionTypes.grow = function (critter) {
         critter.energy += 0.5;
         return true;
     }
-    
+
     actionTypes.move = function (critter, vector, action) {
         let dest = this.checkDestination(action, vector);
         if (dest == undefined ||
@@ -18,7 +18,7 @@
         this.grid.set(dest, critter);
         return true;
     };
-    
+
     actionTypes.eat = function (critter, vector, action) {
         let dest = this.checkDestination(action, vector);
         /**
@@ -40,18 +40,18 @@
         this.grid.set(dest, null);
         return true;
     };
-    
+
     actionTypes.reproduce = function (critter, vector, action) {
         //Создаем инстанс текущего существа
         let baby = elementFromChar(this.legend, critter.originChar);
         /** 
          * dest новая координата
-        */
+         */
         let dest = this.checkDestination(action, vector);
         /** проверяем вернулось ли значение координат
          * Достаточно ли энергии у зверя
          * проверяем есть ли пустое место
-        */
+         */
         if (dest == undefined ||
             critter.energy <= 2 * baby.energy ||
             this.grid.get(dest) != null) {

@@ -1,4 +1,4 @@
-(function(){
+(function () {
   function Animated(world) {
     this.world = world;
     var node = document.body.appendChild(document.createElement("div"));
@@ -10,27 +10,35 @@
       "background: #4ab; cursor: pointer; border-radius: 18px; font-size: 70%; width: 3.5em; text-align: center;";
     this.button.innerHTML = "stop";
     var self = this;
-    this.button.addEventListener("click", function() { self.clicked(); });
-    this.interval = setInterval(function() { self.tick(); }, 333);
+    this.button.addEventListener("click", function () {
+      self.clicked();
+    });
+    this.interval = setInterval(function () {
+      self.tick();
+    }, 333);
   }
 
-  Animated.prototype.clicked = function() {
+  Animated.prototype.clicked = function () {
     if (this.interval) {
       clearInterval(this.interval);
       this.interval = null;
       this.button.innerHTML = "start";
     } else {
       var self = this;
-      this.interval = setInterval(function() { self.tick(); }, 333);
+      this.interval = setInterval(function () {
+        self.tick();
+      }, 333);
       this.button.innerHTML = "stop";
     }
   };
 
-  Animated.prototype.tick = function() {
+  Animated.prototype.tick = function () {
     this.world.turn();
     this.pre.removeChild(this.pre.firstChild);
     this.pre.appendChild(this.pre.ownerDocument.createTextNode(this.world.toString()));
   };
 
-  app.animateWorld = function(world) { new Animated(world); };
+  app.animateWorld = function (world) {
+    new Animated(world);
+  };
 })(app)

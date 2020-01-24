@@ -1,15 +1,15 @@
-(function() {
+(function () {
     let randomElement = app.randomElement;
 
     function Tiger() {
         this.energy = 100;
         this.direction = "w";
     }
-    
+
     Tiger.prototype.act = function (view) {
-    
+
         let prey = view.findAll("O");
-    
+
         if (prey.length) {
             return {
                 type: "eat",

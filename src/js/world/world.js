@@ -1,11 +1,12 @@
-(function() {
-    let charFromElement = app.charFromElement;    
+(function () {
+    let charFromElement = app.charFromElement;
     let Grid = app.Grid;
     let Vector = app.Vector;
     let elementFromChar = app.elementFromChar;
     let directions = app.directions;
+
     function World(map, legend) {
-        let grid = new Grid(map[0].length, map.length);//Создаем пустой массив 
+        let grid = new Grid(map[0].length, map.length); //Создаем пустой массив 
         this.grid = grid;
         this.legend = legend;
         /**Для карты берем каждый элемент массива (строку) и ее инндекс
@@ -16,13 +17,13 @@
         map.forEach(function (line, y) {
             for (let x = 0; x < line.length; x++)
                 grid.set(new Vector(x, y),
-                /**на основе текущего знака создаем объект и меняем
-                 * элемент массива Grig на него
-                 */
+                    /**на основе текущего знака создаем объект и меняем
+                     * элемент массива Grig на него
+                     */
                     elementFromChar(legend, line[x]));
         });
     };
-    
+
     World.prototype.toString = function () {
         let output = "";
         for (let y = 0; y < this.grid.height; y++) {
@@ -53,9 +54,9 @@
                 acted.push(critter);
                 this.letAct(critter, vector);
             }
-        }, this)// для привязки this анонимной функции к объекту мира
+        }, this) // для привязки this анонимной функции к объекту мира
     }
-    
+
     World.prototype.letAct = function (critter, vector) {
         let action = critter.act(new View(this, vector));
         //Если есть действие и его тип move
@@ -71,7 +72,7 @@
             }
         }
     };
-    
+
     World.prototype.checkDestination = function (action, vector) {
         //Если путь валидный (содержится в directions)
         if (directions.hasOwnProperty(action.direction)) {
@@ -82,6 +83,6 @@
                 return dest;
         }
     }
-    
+
     app.World = World;
 })(app)

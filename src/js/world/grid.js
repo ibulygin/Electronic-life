@@ -1,4 +1,4 @@
-(function() {
+(function () {
     let Vector = app.Vector;
 
     function Grid(width, height) {
@@ -20,7 +20,7 @@
          * */
         this.space[vector.x + this.width * vector.y] = value;
     };
-    
+
     Grid.prototype.forEach = function (f, context) {
         for (let y = 0; y < this.height; y++) {
             for (let x = 0; x < this.width; x++) {

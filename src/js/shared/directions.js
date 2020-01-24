@@ -1,4 +1,4 @@
-(function() {
+(function () {
     let Vector = app.Vector
     let directions = {
         "n": new Vector(0, -1),

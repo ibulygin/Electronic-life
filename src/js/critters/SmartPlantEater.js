@@ -1,9 +1,9 @@
-(function(){
+(function () {
     function SmartPlantEater() {
         this.energy = 30;
         this.direction = "e";
     }
-    
+
     SmartPlantEater.prototype.act = function (view) {
         let space = view.find(" ");
         if (this.energy > 90 && space) {

@@ -7,7 +7,7 @@
         "#": Wall,
         "@": Tiger,
         "O": SmartPlantEater, // из предыдущего упражнения
-        "*": Plant 
+        "*": Plant
     }
     app.legend = legend;
 })(app)

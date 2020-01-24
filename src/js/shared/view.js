@@ -1,7 +1,8 @@
-(function(){
+(function () {
     let directions = app.directions;
     let charFromElement = app.charFromElement;
     let randomElement = app.randomElement;
+
     function View(world, vector) {
         this.world = world;
         this.vector = vector;
@@ -18,22 +19,22 @@
             return "#";
         }
     }
-    
+
     View.prototype.findAll = function (ch) {
         let found = [];
         for (let dir in directions) {
             /*смотрим по каждому напрвлению
-            * добавляем направления с нужным символом        
-            **/
+             * добавляем направления с нужным символом        
+             **/
             if (this.look(dir) == ch) {
                 found.push(dir);
             }
-    
+
         }
         //возвращаем массив направлений в которых есть символы
         return found;
     }
-    
+
     View.prototype.find = function (ch) {
         let found = this.findAll(ch);
         if (found.length == 0) return null;
